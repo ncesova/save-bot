@@ -1,13 +1,13 @@
 FROM oven/bun AS deps
 WORKDIR /app
-COPY bun.lockb .
+COPY bun.lock .
 COPY package.json .
 RUN bun install --frozen-lockfile
 
 FROM oven/bun AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/bun.lockb .
+COPY --from=deps /app/bun.lock .
 COPY --from=deps /app/package.json .
 COPY src ./src
 RUN bun build ./src/index.ts --compile --outfile app
