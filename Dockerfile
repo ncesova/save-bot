@@ -1,23 +1,18 @@
-# Use the official Bun.js image
-FROM oven/bun
-
-# Set working directory
+FROM oven/bun AS deps
 WORKDIR /app
+COPY bun.lockb .
+COPY package.json .
+RUN bun install --frozen-lockfile
 
-# Copy package files
-COPY package.json bun.lock tsconfig.json ./
+FROM oven/bun AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/bun.lockb .
+COPY --from=deps /app/package.json .
+COPY src ./src
+RUN bun build ./src/index.ts --compile --outfile app
 
-# Install dependencies
-RUN bun install
-
-# Copy all source code
-COPY . .
-
-# Expose the bot's default port (if applicable)
-EXPOSE 3000
-
-# Set environment variables (optional)
-ENV NODE_ENV=production
-
-# Command to start the bot
-CMD ["bun", "src/index.ts"]
+FROM ubuntu:22.04 AS runner
+WORKDIR /app
+COPY --from=build /app/app .
+CMD ["./app"]
