@@ -1,9 +1,9 @@
-import {Composer} from "grammy";
-import type {MyContext} from "..";
+import { Composer } from "grammy";
+import type { MyContext } from "../types";
 
-export const startHandler = new Composer<MyContext>();
+const startCommand = new Composer<MyContext>();
 
-startHandler.command("start", async (ctx) => {
+startCommand.command("start", async (ctx) => {
   const message = `Привет!
 Этот бот умеет сохранять одноразовые медиа и уведомлять об изменении/удалении сообщений.
 
@@ -13,3 +13,5 @@ startHandler.command("start", async (ctx) => {
 (Настройки -> Telegram для бизнеса -> Чат-боты -> @${ctx.me.username}).`;
   await ctx.reply(message);
 });
+
+export default startCommand;

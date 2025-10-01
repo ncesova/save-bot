@@ -1,5 +1,5 @@
-import {Composer} from "grammy";
-import type {MyContext} from "..";
+import { Composer } from "grammy";
+import type { MyContext } from "../types";
 
 export const deleteMessageHandler = new Composer<MyContext>();
 
@@ -52,6 +52,6 @@ deleteMessageHandler.on("deleted_business_messages", async (ctx) => {
   <strong>${deletedMessage.from}</strong> удалил сообщение:
   <blockquote expandable>${deletedMessage.text}</blockquote>
   `;
-    await ctx.api.sendMessage(employee.id, message, {parse_mode: "HTML"});
+    await ctx.api.sendMessage(employee.id, message, { parse_mode: "HTML" });
   }
 });

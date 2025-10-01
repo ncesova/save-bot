@@ -1,5 +1,5 @@
-import {Composer, InputFile} from "grammy";
-import type {MyContext} from "..";
+import { Composer, InputFile } from "grammy";
+import type { MyContext } from "../types";
 
 export const editMessageHandler = new Composer<MyContext>();
 
@@ -57,5 +57,5 @@ editMessageHandler.on("edited_business_message", async (ctx) => {
   Обновленный текст: <blockquote expandable>${editedMessage.text}</blockquote>
   `;
 
-  await ctx.api.sendMessage(employee.id, message, {parse_mode: "HTML"});
+  await ctx.api.sendMessage(employee.id, message, { parse_mode: "HTML" });
 });
