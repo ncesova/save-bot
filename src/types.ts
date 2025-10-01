@@ -1,5 +1,6 @@
 import type { FileFlavor } from "@grammyjs/files";
 import type { Context, SessionFlavor } from "grammy";
+import type { Database } from "./database";
 
 export type SavedMessage = {
   id: number;
@@ -14,21 +15,20 @@ export type SavedMessage = {
 export type Settings = {
   sendYoursEdited: boolean;
   sendYoursDeleted: boolean;
+  notifyOnDeleted: boolean;
+  notifyOnEdited: boolean;
 };
 
 export type SessionData = {
   history: SavedMessage[];
-  settings: Settings;
 };
 
 export function initial(): SessionData {
   return {
     history: [],
-    settings: {
-      sendYoursDeleted: true,
-      sendYoursEdited: true,
-    },
   };
 }
 
-export type MyContext = FileFlavor<Context & SessionFlavor<SessionData>>;
+export type MyContext = FileFlavor<Context & SessionFlavor<SessionData>> & {
+  db: Database;
+};

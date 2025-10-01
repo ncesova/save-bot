@@ -14,5 +14,7 @@ RUN bun build ./src/index.ts --compile --outfile app
 
 FROM ubuntu:22.04 AS runner
 WORKDIR /app
+RUN mkdir -p /app/data
 COPY --from=build /app/app .
+ENV DB_PATH=/app/data/savebot.sqlite
 CMD ["./app"]
